@@ -18,3 +18,5 @@ psycopg2==2.9.9
     # PostgreSQL adapter
 requests==2.31.0
     # HTTP library
+Flask-Testing==0.8.1
+    # Testing Flask applications

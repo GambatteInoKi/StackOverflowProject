@@ -17,6 +17,10 @@ click==8.1.7
     #   -r requirements.in
     #   flask
 flask==3.0.3
+    # via
+    #   -r requirements.in
+    #   flask-testing
+flask-testing==0.8.1
     # via -r requirements.in
 idna==3.7
     # via requests
