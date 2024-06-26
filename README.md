@@ -1,6 +1,8 @@
 # StackOverflowProject
 
 First off, use the .env_example for yopur reference and set up a local Postgres Database, and create a table called saved_questions with this command:
+
+
 CREATE TABLE saved_questions (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
