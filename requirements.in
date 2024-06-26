@@ -20,3 +20,5 @@ requests==2.31.0
     # HTTP library
 Flask-Testing==0.8.1
     # Testing Flask applications
+mock==5.0.1
+    # For mocking in tests
