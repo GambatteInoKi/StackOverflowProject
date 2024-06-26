@@ -43,7 +43,7 @@ def search_questions(keyword, tag):
 
 @app.route('/')
 def home():
-    return jsonify({"message": "Hello, Flask!"})
+    return jsonify({"message": "Welcome to Stack Over Flow App!"})
 
 
 @app.route('/search', methods=['GET'])
