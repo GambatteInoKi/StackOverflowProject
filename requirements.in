@@ -22,3 +22,5 @@ Flask-Testing==0.8.1
     # Testing Flask applications
 mock==5.0.1
     # For mocking in tests
+python-dotenv==1.0.1
+    # For enviroment variables
