@@ -10,6 +10,7 @@ services:
       - 5000:5000
     depends_on:
       - db
+    restart: unless-stopped
 
   db:
     container_name: postgres
@@ -18,6 +19,9 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=password
+    configs:
+      - source: init.sql
+        target: /docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
     container_name: pgadmin
@@ -27,4 +31,16 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=user@domain.com
       - PGADMIN_DEFAULT_PASSWORD=catsarecool
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
 
+configs:
+  pgpass:
+    file: ./resources/pgadmin4/pgpass
+  servers.json:
+    file: ./resources/pgadmin4/servers.json
+  init.sql:
+    file: ./resources/postgres/init.sql
