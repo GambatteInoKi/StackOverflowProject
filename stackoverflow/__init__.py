@@ -91,5 +91,48 @@ def delete_question(id):
     return jsonify({'message': 'Question deleted successfully'})
 
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    user_data = request.json
+    username = user_data.get('username')
+    password = user_data.get('password')
+    is_admin = False
+
+    cursor.execute('''
+        INSERT INTO users (username, password, is_admin)
+        VALUES (%s, %s, %s)
+    ''', (username, password, is_admin))
+    conn.commit()
+    return jsonify({'message': f'User {username} is created successfully'}), 201
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user_data = request.json
+    username = user_data.get('username')
+    password = user_data.get('password')
+
+    cursor.execute('''
+        SELECT username, is_admin
+        FROM users
+        WHERE username = %s and password = %s
+    ''', (username, password))
+
+    user_info = cursor.fetchall()
+    if len(user_info) == 0:
+        return jsonify({'message': f'Please check your username/password combo'}), 404
+    else:
+        username = user_info[0][0]
+        is_admin = user_info[0][1]
+        return jsonify({'username': username, 'is_admin': is_admin})
+
+
+@app.route('/delete_user/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    cursor.execute('DELETE FROM users WHERE id = %s', (id,))
+    conn.commit()
+    return jsonify({'message': 'User deleted successfully'})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
