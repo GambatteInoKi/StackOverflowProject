@@ -10,11 +10,12 @@ import { catchError, map } from 'rxjs/operators';
 export class AuthService {
   private loggedIn = false;
   private username = "";
-  private password = "";
 
   loginResponse: User = new User();
 
-  constructor(private fetchService: FetchService) {}
+  constructor(private fetchService: FetchService) {
+    this.loadUser();
+  }
 
   isLoggedIn(): boolean {
     return this.loggedIn;
@@ -26,6 +27,7 @@ export class AuthService {
         if (response.username && response.username.trim() !== '') {
           this.username = response.username;
           this.loggedIn = true;
+          this.saveUser(response);
           return response;
         } else {
           throw new Error('Invalid username');
@@ -40,11 +42,29 @@ export class AuthService {
 
   logOut(): void {
     this.username = "";
-    this.password = "";
     this.loggedIn = false;
+    this.clearUser();
   }
 
   getUsername(): string {
     return this.username;
+  }
+
+  private saveUser(user: User): void {
+    sessionStorage.setItem('username', user.username || '');
+    this.loggedIn = true;
+  }
+
+  private loadUser(): void {
+    const username = sessionStorage.getItem('username');
+    if (username) {
+      this.username = username;
+      this.loggedIn = true;
+    }
+  }
+
+  private clearUser(): void {
+    sessionStorage.removeItem('username');
+    this.loggedIn = false;
   }
 }
