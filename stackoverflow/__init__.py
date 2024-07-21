@@ -1,10 +1,12 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 import psycopg2
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 load_dotenv()
 

@@ -24,3 +24,5 @@ mock==5.0.1
     # For mocking in tests
 python-dotenv==1.0.1
     # For enviroment variables
+flask-cors==4.0.1
+    # via StackOverflow (pyproject.toml)
