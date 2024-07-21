@@ -1,48 +1,70 @@
 import { Injectable } from '@angular/core';
 import { FetchService } from './fetch.service';
 import { User } from '../../app/Shared/Models/User';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-    private loggedIn = false;
-    private username = "";
-    private password = "";
+  private loggedIn = false;
+  private username = "";
 
-    loginResponse: User = new User();
+  loginResponse: User = new User();
 
-    constructor(private fetchService: FetchService) {}
+  constructor(private fetchService: FetchService) {
+    this.loadUser();
+  }
 
-    isLoggedIn(): boolean {
-        return this.loggedIn;
-    }
-
-    logIn(userLoginAttempt: User): boolean {
-        this.fetchService.postData('login', userLoginAttempt).subscribe(
-            (response) => {
-                this.loginResponse = response;
-                if (this.loginResponse.username && this.loginResponse.username.trim() !== '') {
-                this.username = this.loginResponse.username;
-                this.loggedIn = true;
-            } else {
-                console.error('Login failed: Invalid username');
-                }
-            },
-            (error) => {
-                console.error('Login failed:', error);
-        }
-    );
+  isLoggedIn(): boolean {
     return this.loggedIn;
-    }
+  }
 
-    logOut() {
-        this.username = "";
-        this.password = "";
-        this.loggedIn = false;
-    }
+  logIn(userLoginAttempt: User): Observable<User> {
+    return this.fetchService.login(userLoginAttempt).pipe(
+      map((response: User) => {
+        if (response.username && response.username.trim() !== '') {
+          this.username = response.username;
+          this.loggedIn = true;
+          this.saveUser(response);
+          return response;
+        } else {
+          throw new Error('Invalid username');
+        }
+      }),
+      catchError(error => {
+        console.error('Login failed:', error);
+        return of(new User());
+      })
+    );
+  }
+
+  logOut(): void {
+    this.username = "";
+    this.loggedIn = false;
+    this.clearUser();
+  }
 
   getUsername(): string {
     return this.username;
+  }
+
+  private saveUser(user: User): void {
+    sessionStorage.setItem('username', user.username || '');
+    this.loggedIn = true;
+  }
+
+  private loadUser(): void {
+    const username = sessionStorage.getItem('username');
+    if (username) {
+      this.username = username;
+      this.loggedIn = true;
+    }
+  }
+
+  private clearUser(): void {
+    sessionStorage.removeItem('username');
+    this.loggedIn = false;
   }
 }

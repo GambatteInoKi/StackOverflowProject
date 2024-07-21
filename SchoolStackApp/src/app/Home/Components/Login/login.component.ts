@@ -1,25 +1,46 @@
-import { Component, Input, input } from '@angular/core';
-import { FetchService } from '../../../../infrastucture/Services/fetch.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../../infrastucture/Services/auth.service';
 import { User } from '../../../Shared/Models/User';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
+  loginAttempt: User = new User();
 
-    constructor(
-        private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
-    loginAttempt : User = new User();
-    loginResponse : User = new User();
-    
-    onLogin(loginAttempt: User){
-        return this.authService.logIn(loginAttempt);
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  onLogin(): void {
+    if (this.loginForm.valid) {
+      this.loginAttempt.username = this.loginForm.value.username;
+      this.loginAttempt.password = this.loginForm.value.password;
+
+      this.authService.logIn(this.loginAttempt).subscribe(
+        (response: User) => {
+          console.log(response.username + ' has been logged in');
+          this.router.navigate(['/search']);
+        },
+        (error: any) => {
+          console.error('Login failed:', error);
+        }
+      );
+    } else {
+      console.log('Form is invalid');
     }
-
+  }
 }
