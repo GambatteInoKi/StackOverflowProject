@@ -1,0 +1,52 @@
+/* src/app/login/login.component.scss */
+.login-form {
+    max-width: 300px;
+    padding: 2em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  h1 {
+    font-size: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 1em;
+    text-align: left;
+  }
+  
+  label {
+    margin-bottom: 0.5em;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 0.75em;
+    border: none;
+    border-radius: 5px;
+    background-color: #f48024;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d86717;
+  }
+  

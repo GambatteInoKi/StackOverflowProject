@@ -75,3 +75,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/SchoolStackApp/node_modules/globby
+/SchoolStackApp/node_modules
+/SchoolStackApp/.angular
