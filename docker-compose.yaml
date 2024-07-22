@@ -12,6 +12,18 @@ services:
       - db
     restart: unless-stopped
 
+  web:
+    container_name: web
+    image: schoolstackapp
+    build:
+      context: ./SchoolStackApp
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    depends_on:
+      - app
+    restart: unless-stopped
+
   db:
     container_name: postgres
     image: postgres

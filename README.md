@@ -1,5 +1,15 @@
 # StackOverflowProject
 
+## Docker Approach
+
+1. Copy `.env_example` to `.env` and change the values properly.
+    - Adjust the values to match the one in `resources/pgadmin4/pgpass` and `resources/pgadmin4/servers.json` for pgadmin4 to work prpoerly.
+2. Just run `sudo docker compose up --build`
+3. Open your browser and enter "http://localhost:4200" and enjoy!
+
+
+## Legacy Note
+
 First off, use the .env_example for yopur reference and set up a local Postgres Database, and create a table called saved_questions with this command:
 
 
