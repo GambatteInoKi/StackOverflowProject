@@ -32,11 +32,17 @@ export class LoginComponent implements OnInit {
 
       this.authService.logIn(this.loginAttempt).subscribe(
         (response: User) => {
-          console.log(response.username + ' has been logged in');
-          this.router.navigate(['/search']);
+          if (response.username && response.username.trim() !== '') {
+            console.log(response.username + ' has been logged in');
+            this.router.navigate(['/search']);
+          } else {
+            console.error('Login failed: No username in response');
+            alert('Login failed: Invalid username or password');
+          }
         },
         (error: any) => {
           console.error('Login failed:', error);
+          alert('Login failed: Invalid username or password');
         }
       );
     } else {

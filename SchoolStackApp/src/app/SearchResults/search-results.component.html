@@ -1,2 +1,40 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+<div class="app">
+  <div class="home-container">
+    <h1>Showing results for: "{{ keyword }}"</h1>
+    <div class="search-container">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search..." [(ngModel)]="keyword" (keydown.enter)="onSearch()" />
+      </div>
+      <button class="add-button" (click)="onSearch()">+</button>
+    </div>
+
+    <p-table
+      *ngIf="keyword"
+      [value]="questions"
+      [lazy]="true"
+      [paginator]="true"
+      [rows]="10"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [rowsPerPageOptions]="[10]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Title</th>
+          <th>Tags</th>
+          <th>Score</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-question>
+        <tr>
+          <td>{{ question.title }}</td>
+          <td>{{ question.tags }}</td>
+          <td>{{ question.score }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

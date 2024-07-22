@@ -9,15 +9,16 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class AuthService {
   private loggedIn = false;
-  private username = "";
-
-  loginResponse: User = new User();
+  private username = '';
 
   constructor(private fetchService: FetchService) {
     this.loadUser();
   }
 
   isLoggedIn(): boolean {
+    if (!this.loggedIn) {
+      this.loadUser();
+    }
     return this.loggedIn;
   }
 
@@ -41,7 +42,7 @@ export class AuthService {
   }
 
   logOut(): void {
-    this.username = "";
+    this.username = '';
     this.loggedIn = false;
     this.clearUser();
   }
@@ -60,6 +61,8 @@ export class AuthService {
     if (username) {
       this.username = username;
       this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
     }
   }
 
