@@ -1,2 +1,21 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+<div class="app">
+  <div class="question-container" *ngIf="questionDetails">
+    <div class="question-title">
+      <h2>{{ questionDetails.title }}</h2>
+      <a [href]="questionDetails.link" target="_blank">{{ questionDetails.link }}</a>
+    </div>
+    <div class="notes-section">
+      <textarea [(ngModel)]="questionDetails.notes" [disabled]="!notesEnabled" placeholder="Add your notes here..."></textarea>
+    </div>
+    <div class="question-actions">
+      <span>In Category: "{{ selectedCategory }}"</span>
+      <button (click)="deleteQuestion()" class="delete-button">Delete</button>
+      <select [(ngModel)]="selectedCategory">
+        <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+      </select>
+      <button (click)="saveQuestion()" class="save-button">{{ notesEnabled ? 'Update' : 'Save' }}</button>
+    </div>
+  </div>
+</div>

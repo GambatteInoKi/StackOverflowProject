@@ -14,6 +14,21 @@ CREATE TABLE saved_questions (
     owner VARCHAR(100)
 );
 
+The above is only an example:
+
+What you need to do is that you have to change .env_example to .env which sets up the python environment since the constants are used in the init file.
+
+Once you do that, you must also have docker in your machine and run docker compose up ==build in order to start the container with images that are necessary to the project.
+
+The code will automatically create the tables as specified within init.sql which has a similar table as shown in the example above.
+
+Make sure that you have the proper credentials in .env: if it does not work, replace the .env variables with the following:
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=password
+DB_HOST=postgres
+DB_PORT=5432
+
 ![Screenshot 2024-06-26 at 12 41 25 PM](https://github.com/hshastri/StackOverflowProject/assets/35407439/3e2c2812-185a-4288-b330-1c1c5db2bfa4)
 
 Run the Flask application.
@@ -32,6 +47,11 @@ You can run the SPA project by first installing node at https://nodejs.org/en
 
 After, make sure to install angular CLI with command prompt that can use node:
 npm install -g @angular/cli
+
+After, make sure you use the project packages with:
+npm i 
+
+This installs NgPrime which is a component library mostly for table usage.
 
 Make sure you're in the right directory before running:
 ng serve

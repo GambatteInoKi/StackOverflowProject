@@ -37,8 +37,8 @@ export class RegisterComponent implements OnInit {
 
       this.fetchService.signup(this.signup).subscribe(
         (response) => {
-          console.log(this.signup.username + ' has been registered');
-          console.log(response);
+          alert(`${this.signup.username} has been registered successfully!`);
+          this.registerForm.reset(); // Clear the form fields
         },
         (error) => {
           console.error(error);

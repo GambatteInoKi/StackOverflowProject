@@ -7,9 +7,9 @@
     <div class="search-container">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search..." />
+        <input type="text" placeholder="Search..." [(ngModel)]="keyword" />
       </div>
-      <button class="add-button">+</button>
+      <button class="add-button" (click)="onSearch()">+</button>
     </div>
   </div>
 </div>
