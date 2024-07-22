@@ -19,7 +19,7 @@ import { SavedQuestion } from '../Shared/Models/SavedQuestion';
 export class SearchResultsComponent implements OnInit {
   keyword: string | null = '';
   tag: string | null = '';
-  questions: SavedQuestion[] = [];  
+  questions: SavedQuestion[] = [];
   loading: boolean = false;
 
   constructor(
@@ -73,5 +73,4 @@ export class SearchResultsComponent implements OnInit {
     sessionStorage.setItem('selectedQuestion', JSON.stringify(question));
     this.router.navigate(['/question']);
   }
-  
 }

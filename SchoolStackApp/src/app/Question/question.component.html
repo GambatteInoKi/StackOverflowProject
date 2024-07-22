@@ -4,13 +4,18 @@
   <div class="question-container" *ngIf="questionDetails">
     <div class="question-title">
       <h2>{{ questionDetails.title }}</h2>
-      <p>{{ questionDetails.body }}</p>
+      <a [href]="questionDetails.link" target="_blank">{{ questionDetails.link }}</a>
+    </div>
+    <div class="notes-section">
+      <textarea [(ngModel)]="questionDetails.notes" [disabled]="!notesEnabled" placeholder="Add your notes here..."></textarea>
     </div>
     <div class="question-actions">
-      <span>Question Status: Saved</span>
-      <span>In Category: "{{ questionDetails.category }}"</span>
-      <button class="delete-button">Delete</button>
-      <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" placeholder="Move to"></p-dropdown>
+      <span>In Category: "{{ selectedCategory }}"</span>
+      <button (click)="deleteQuestion()" class="delete-button">Delete</button>
+      <select [(ngModel)]="selectedCategory">
+        <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+      </select>
+      <button (click)="saveQuestion()" class="save-button">{{ notesEnabled ? 'Update' : 'Save' }}</button>
     </div>
   </div>
 </div>

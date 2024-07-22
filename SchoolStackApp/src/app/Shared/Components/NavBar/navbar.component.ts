@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SidebarService } from '../../Services/sidebar.service';
 
 @Component({
@@ -8,9 +9,13 @@ import { SidebarService } from '../../Services/sidebar.service';
   standalone: true,
 })
 export class NavbarComponent {
-    constructor(private sidebarService: SidebarService) {}
-  
-    toggleSidebar() {
-      this.sidebarService.toggle();
-    }
+  constructor(private sidebarService: SidebarService, private router: Router) {}
+
+  toggleSidebar() {
+    this.sidebarService.toggle();
   }
+
+  navigateToSearch() {
+    this.router.navigate(['/search']);
+  }
+}
