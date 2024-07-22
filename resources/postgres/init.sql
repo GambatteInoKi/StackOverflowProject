@@ -7,7 +7,9 @@ CREATE TABLE saved_questions (
     creation_date TIMESTAMP NOT NULL, 
     tags VARCHAR(255), 
     view_count INTEGER, 
-    owner VARCHAR(100) 
+    owner VARCHAR(100),
+    user_id INTEGER,
+    category_name VARCHAR(255)
 );
 
 
