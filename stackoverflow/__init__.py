@@ -66,11 +66,13 @@ def save_question():
     tags = ','.join(question_data.get('tags', []))
     view_count = question_data.get('view_count')
     owner = question_data.get('owner')
+    user_id = question_data.get('user_id')
+    category = question_data.get('category', 'default')
 
     cursor.execute('''
-        INSERT INTO saved_questions (title, link, score, creation_date, tags, view_count, owner)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    ''', (title, link, score, creation_date, tags, view_count, owner))
+        INSERT INTO saved_questions (title, link, score, creation_date, tags, view_count, owner, user_id, category_name)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    ''', (title, link, score, creation_date, tags, view_count, owner, user_id, category))
     conn.commit()
     return jsonify({'message': 'Question saved successfully'}), 201
 
@@ -80,10 +82,37 @@ def view_saved_questions():
     cursor.execute('SELECT * FROM saved_questions')
     saved_questions = cursor.fetchall()
     saved_questions_list = [
-        {'id': row[0], 'title': row[1], 'link': row[2], 'score': row[3], 'creation_date': row[4], 'tags': row[5], 'view_count': row[6], 'owner': row[7]}
+        {'id': row[0], 'title': row[1], 'link': row[2], 'score': row[3], 'creation_date': row[4], 'tags': row[5], 'view_count': row[6], 'owner': row[7], 'user_id': row[8], 'category': row[9]}
         for row in saved_questions
     ]
     return jsonify(saved_questions_list)
+
+
+@app.route('/saved/categories', methods=['GET'])
+def view_saved_categories():
+    user_id = request.args.get('user_id')
+    categories = cursor.execute('SELECT distinct category FROM saved_questions WHERE user_id = %s', user_id)
+    categories_json  = {
+        'categories': [row[0] for row in categories]
+    }
+    return jsonify(categories_json)
+
+
+@app.route('/update/categories', methods=['PATCH'])
+def update_question_category():
+    category_data = request.json
+    question_id = category_data.get('question_id')
+    category = category_data.get('category')
+
+    cursor.execute('''
+        UPDATE saved_questions
+        SET category_name = %s
+        WHERE id = %s
+    ''', (category, question_id))
+
+    conn.commit()
+
+    return jsonify({'message': f"Question {question_id}'s category has been updated to {category}"}), 201
 
 
 @app.route('/delete/<int:id>', methods=['DELETE'])
