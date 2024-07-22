@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 <div class="app">
-  <div class="home-container">
+  <div class="results-container">
     <h1>Showing results for: "{{ keyword }}"</h1>
     <div class="search-container">
       <div class="search-box">
@@ -12,24 +12,22 @@
     </div>
 
     <p-table
-      *ngIf="keyword"
+      *ngIf="questions.length > 0"
       [value]="questions"
-      [lazy]="true"
       [paginator]="true"
       [rows]="10"
-      [totalRecords]="totalRecords"
       [loading]="loading"
-      [rowsPerPageOptions]="[10]"
+      responsiveLayout="scroll"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>Title</th>
-          <th>Tags</th>
-          <th>Score</th>
+          <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+          <th pSortableColumn="tags">Tags <p-sortIcon field="tags"></p-sortIcon></th>
+          <th pSortableColumn="score">Score <p-sortIcon field="score"></p-sortIcon></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-question>
-        <tr>
+        <tr class="question-row" (click)="onQuestionClick(question)">
           <td>{{ question.title }}</td>
           <td>{{ question.tags }}</td>
           <td>{{ question.score }}</td>

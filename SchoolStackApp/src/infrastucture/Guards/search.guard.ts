@@ -9,8 +9,8 @@ export class SearchGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const hasQueryParams = !!route.queryParams['keyword'];
-    if (hasQueryParams) {
-      this.router.navigate(['/search-results'], { queryParams: route.queryParams });
+    if (!hasQueryParams) {
+      this.router.navigate(['/search']);
       return false;
     }
     return true;

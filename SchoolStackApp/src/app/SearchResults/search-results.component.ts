@@ -19,8 +19,7 @@ import { SavedQuestion } from '../Shared/Models/SavedQuestion';
 export class SearchResultsComponent implements OnInit {
   keyword: string | null = '';
   tag: string | null = '';
-  questions: SavedQuestion[] = []; 
-  totalRecords: number = 0;
+  questions: SavedQuestion[] = [];  
   loading: boolean = false;
 
   constructor(
@@ -33,15 +32,17 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.route.queryParams.subscribe(params => {
-      this.keyword = params['keyword'] || '';
+      this.keyword = params['keyword'] || sessionStorage.getItem('lastSearchQuery') || '';
       this.tag = params['tag'] || '';
-      this.searchQuestions(0);
+      if (this.keyword) {
+        this.searchQuestions();
+      } else {
+        this.router.navigate(['/search']);
+      }
     });
   }
 
-  searchQuestions(page: number): void {
-    const limit = 10;
-    const offset = page * limit;
+  searchQuestions(): void {
     this.loading = true;
 
     this.http.get<SavedQuestion[]>(`http://localhost:5000/search`, {
@@ -51,10 +52,8 @@ export class SearchResultsComponent implements OnInit {
       }
     }).subscribe(
       data => {
-        this.questions = data.slice(offset, offset + limit);
-        this.totalRecords = Math.min(data.length, 50);
+        this.questions = data.sort((a, b) => b.score - a.score);
         this.loading = false;
-        console.log(data);
       },
       error => {
         console.error('Error fetching questions', error);
@@ -65,7 +64,14 @@ export class SearchResultsComponent implements OnInit {
 
   onSearch(): void {
     if (this.keyword?.trim()) {
+      sessionStorage.setItem('lastSearchQuery', this.keyword);
       this.router.navigate(['/search-results'], { queryParams: { keyword: this.keyword } });
     }
   }
+  
+  onQuestionClick(question: SavedQuestion): void {
+    sessionStorage.setItem('selectedQuestion', JSON.stringify(question));
+    this.router.navigate(['/question']);
+  }
+  
 }

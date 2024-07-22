@@ -1,2 +1,16 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+<div class="app">
+  <div class="question-container" *ngIf="questionDetails">
+    <div class="question-title">
+      <h2>{{ questionDetails.title }}</h2>
+      <p>{{ questionDetails.body }}</p>
+    </div>
+    <div class="question-actions">
+      <span>Question Status: Saved</span>
+      <span>In Category: "{{ questionDetails.category }}"</span>
+      <button class="delete-button">Delete</button>
+      <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" placeholder="Move to"></p-dropdown>
+    </div>
+  </div>
+</div>

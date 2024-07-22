@@ -1,0 +1,56 @@
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    background-color: #f7f7f7;
+  }
+  
+  .question-container {
+    width: 100%;
+    max-width: 900px;
+  }
+  
+  .question-title {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .question-title h2 {
+    margin-top: 0;
+  }
+  
+  .question-title p {
+    margin-bottom: 0;
+  }
+  
+  .question-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+  }
+  
+  .delete-button {
+    padding: 0.5rem 1rem;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: darkred;
+  }
+  
+  .p-dropdown {
+    min-width: 150px;
+  }
+  
