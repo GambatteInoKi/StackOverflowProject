@@ -19,19 +19,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
   categories: any[] = [];
   selectedCategory: string | null = 'default';
   notesEnabled: boolean = false;
-  userId: number = 1;
+  userId: number = 1; // Replace with actual user ID
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadQuestionDetails();
-    this.loadCategories();
-    this.router.events.subscribe(() => {
-      this.loadQuestionDetails();
-    });
-  }
-
-  loadQuestionDetails(): void {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['question']) {
       this.questionDetails = navigation.extras.state['question'];
@@ -46,6 +38,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
         this.router.navigate(['/search']);
       }
     }
+
+    this.loadCategories();
   }
 
   loadCategories(): void {
@@ -83,9 +77,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
 
     if (newCategory) {
-      if (!newCategory.questions.find((q: any) => q.link === this.questionDetails?.link)) {
-        newCategory.questions.push(this.questionDetails);
-      }
+      newCategory.questions.push(this.questionDetails);
     } else {
       categories.push({ label: this.selectedCategory, value: this.selectedCategory?.toLowerCase(), questions: [this.questionDetails] });
     }
@@ -121,9 +113,15 @@ export class QuestionComponent implements OnInit, OnDestroy {
       }
 
       localStorage.setItem(categoryKey, JSON.stringify(categories));
+      this.router.navigate(['/search-results']);
+    }
+  }
 
-      sessionStorage.removeItem('selectedQuestion');
-      localStorage.removeItem(`notes-${this.questionDetails.link}`);
+  moveQuestion(): void {
+    if (this.questionDetails && this.selectedCategory) {
+      this.questionDetails.categoryName = this.selectedCategory;
+      sessionStorage.setItem('selectedQuestion', JSON.stringify(this.questionDetails));
+      console.log('Question moved to', this.selectedCategory);
       this.router.navigate(['/search-results']);
     }
   }

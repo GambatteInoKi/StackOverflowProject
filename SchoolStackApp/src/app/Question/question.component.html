@@ -10,12 +10,12 @@
       <textarea [(ngModel)]="questionDetails.notes" [disabled]="!notesEnabled" placeholder="Add your notes here..."></textarea>
     </div>
     <div class="question-actions">
-      <span>In Category: "{{ selectedCategory }}"</span>
+      <span>In Category: "{{ questionDetails.categoryName }}"</span>
       <button (click)="deleteQuestion()" class="delete-button">Delete</button>
       <select [(ngModel)]="selectedCategory">
         <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
       </select>
-      <button (click)="saveQuestion()" class="save-button">{{ notesEnabled ? 'Update' : 'Save' }}</button>
+      <button (click)="saveQuestion()" class="save-button">Save</button>
     </div>
   </div>
 </div>
