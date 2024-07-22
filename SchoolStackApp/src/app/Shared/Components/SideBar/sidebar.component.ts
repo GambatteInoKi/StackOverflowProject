@@ -71,14 +71,19 @@ export class SidebarComponent implements OnInit {
   deleteCategory(categoryValue: string): void {
     const confirmDelete = confirm('Are you sure you want to delete this category? All questions will be moved to Uncategorized.');
     if (confirmDelete) {
-      const categoryKey = `categories-${this.userId}`;
+      const categoriesKey = `categories-${this.userId}`;
       const uncategorizedCategory = this.categories.find(cat => cat.value === 'uncategorized');
       const categoryToDelete = this.categories.find(cat => cat.value === categoryValue);
 
       if (categoryToDelete && uncategorizedCategory) {
+        categoryToDelete.questions.forEach((question: any) => {
+          question.categoryName = 'uncategorized';
+          const questionKey = `question-${question.link}-${this.userId}`;
+          localStorage.setItem(questionKey, JSON.stringify(question));
+        });
         uncategorizedCategory.questions.push(...categoryToDelete.questions);
         this.categories = this.categories.filter(cat => cat.value !== categoryValue);
-        localStorage.setItem(categoryKey, JSON.stringify(this.categories));
+        localStorage.setItem(categoriesKey, JSON.stringify(this.categories));
       }
     }
   }
