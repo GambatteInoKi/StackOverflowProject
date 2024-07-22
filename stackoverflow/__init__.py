@@ -79,7 +79,8 @@ def save_question():
 
 @app.route('/saved', methods=['GET'])
 def view_saved_questions():
-    cursor.execute('SELECT * FROM saved_questions')
+    user_id = request.args.get('user_id')
+    cursor.execute('SELECT * FROM saved_questions where user_id = %s', user_id)
     saved_questions = cursor.fetchall()
     saved_questions_list = [
         {'id': row[0], 'title': row[1], 'link': row[2], 'score': row[3], 'creation_date': row[4], 'tags': row[5], 'view_count': row[6], 'owner': row[7], 'user_id': row[8], 'category': row[9]}
