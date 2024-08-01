@@ -78,3 +78,7 @@ Thumbs.db
 /SchoolStackApp/node_modules/globby
 /SchoolStackApp/node_modules
 /SchoolStackApp/.angular
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

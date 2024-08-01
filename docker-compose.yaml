@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app:
     container_name: stackoverflow
@@ -14,15 +16,17 @@ services:
 
   web:
     container_name: web
-    image: schoolstackapp
     build:
       context: ./SchoolStackApp
       dockerfile: Dockerfile
     ports:
-      - 4200:4200
+      - 4300:4200
     depends_on:
       - app
     restart: unless-stopped
+    volumes:
+      - ./SchoolStackApp:/usr/src/app
+      - /usr/src/app/node_modules
 
   db:
     container_name: postgres
