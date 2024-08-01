@@ -1,0 +1,17 @@
+{
+  "name": "stackoverflowproject",
+  "version": "1.0.0",
+  "description": "1. Copy `.env_example` to `.env` and change the values properly.\r     - Adjust the values to match the one in `resources/pgadmin4/pgpass` and `resources/pgadmin4/servers.json` for pgadmin4 to work prpoerly.\r 2. Just run `sudo docker compose up --build`\r 3. Open your browser and enter \"http://localhost:4200\" and enjoy!",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.45.3",
+    "@types/node": "^22.0.2"
+  }
+}
